@@ -7,9 +7,9 @@ body {
     box-shadow: 12px 15px 20px 0 rgba(46, 61, 73, 0.5);
     display: flex;
     padding: 30px 0 20px 0;
-   /* flex-wrap: wrap;*/
-  /*  justify-content: space-between;*/
-   /* align-items: center;*/
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .panel-custom .card {
@@ -37,6 +37,6 @@ body {
 
 .panel-custom .card.match {
     cursor: default;
-    background: #02ccba;
+    background: #d89c1d;
     font-size: 33px;
 }
