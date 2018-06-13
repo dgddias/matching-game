@@ -1,14 +1,8 @@
 /*
  * Create a list that holds all of your cards
  */
-
-
-/*
- * Display the cards on the page
- *   - shuffle the list of cards using the provided "shuffle" method below
- *   - loop through each card and create its HTML
- *   - add each card's HTML to the page
- */
+const cards = ["fa-car", "fa-plane", "fa-umbrella", "fa-star", "fa-anchor", "fa-diamond", "fa-bicycle", "fa-bomb"];
+let cardOpen = [];
 
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
@@ -24,7 +18,31 @@ function shuffle(array) {
 
     return array;
 }
+/*
+    - loop through each card and create its HTML
+*/
+function loadArray() {
 
+    shuffle(cards.concat(cards)).forEach(loadpage);
+}
+
+/*
+
+ *
+ *   - add each card's HTML to the page
+ */
+
+function loadpage(card) {
+
+    $(".panel-custom .container").append(`<div class="col-md-3 col-sm-3 col-xs-6">
+                        <ul class="list-unstyled">
+                            <li class="card">
+                                <i class="fa ${card}"></i>
+                            </li>
+                        </ul>
+                    </div>`);
+
+}
 
 /*
  * set up the event listener for a card. If a card is clicked:
@@ -37,38 +55,55 @@ function shuffle(array) {
  *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
  */
 
-let cardOpen = [];
-
-$('.card').on('click', function () {
-
-    //let classe = $(this).children().attr('class');
-
-    // cards can be flipped
-    if (cardOpen.length < 2){
-        $(this).toggleClass("open show");
-        cardOpen.push($(this));
-    }
-    // check if cards match
-    if (cardOpen.length === 2){
-        checkOpen();
-    }
-});
 
 
 function checkOpen() {
 
-
     if((cardOpen[0].find('i').attr('class')) === (cardOpen[1].find('i').attr('class'))){
-        cardOpen.forEach(function(e){
-           /* card.animateCss('tada', function(){*/
-                e.toggleClass("open show match");
 
-        });
+              cardOpen.forEach(function (e) {
+
+                  e.toggleClass("open show match");
+              });
     } else {
 
+        cardOpen.forEach(function (e) {
+            e.animateCss('shake', function(){
+                e.toggleClass("open show");
+            });
+        });
     }
+    cardOpen = [];
 
 }
+
+$.fn.extend({
+    animateCss: function(animationName, callback) {
+        var animationEnd = (function(el) {
+            var animations = {
+                animation: 'animationend',
+                OAnimation: 'oAnimationEnd',
+                MozAnimation: 'mozAnimationEnd',
+                WebkitAnimation: 'webkitAnimationEnd',
+            };
+
+            for (var t in animations) {
+                if (el.style[t] !== undefined) {
+                    return animations[t];
+                }
+            }
+        })(document.createElement('div'));
+
+        this.addClass('animated ' + animationName).one(animationEnd, function() {
+            $(this).removeClass('animated ' + animationName);
+
+            if (typeof callback === 'function') callback();
+        });
+
+        return this;
+    },
+});
+
 
 
 // event handler for when the card is clicked
@@ -95,3 +130,27 @@ function cardClick(event){
         checkOpenCards();
     }
 }
+
+$(document).ready(function() {
+    loadArray();
+
+    $('.card').on('click', function () {
+
+        let classes = $(this).attr('class');
+        if (classes.search('open') * classes.search('match') !== 1){
+            // both should be -1
+            return;
+        }
+
+        // cards can be flipped
+        if (cardOpen.length < 2){
+            $(this).toggleClass("open show");
+            cardOpen.push($(this));
+        }
+        // check if cards match
+        if (cardOpen.length === 2){
+            checkOpen();
+        }
+    });
+
+});
