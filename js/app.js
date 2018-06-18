@@ -53,13 +53,13 @@ function checkOpen() {
         cardmatch++;
         cardOpen.forEach(function (e) {
 
-            e.toggleClass("open show match");
+            e.toggleClass("open showcard match");
         });
     } else {
 
         cardOpen.forEach(function (e) {
             e.animateCss('shake', function () {
-                e.toggleClass("open show");
+                e.toggleClass("open showcard");
             });
         });
     }
@@ -222,7 +222,7 @@ $(document).ready(function () {
 
         // cards can be flipped
         if (cardOpen.length < 2) {
-            $(this).toggleClass("open show");
+            $(this).toggleClass("open showcard");
             cardOpen.push($(this));
         }
         // check if cards match

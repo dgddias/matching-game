@@ -1,6 +1,7 @@
 body {
     background: #ffffff url('../img/geometry2.png'); /* Background pattern from Subtle Patterns */
 }
+
 .panel-custom {
     background: linear-gradient(160deg, #02ccba 0%, #aa7ecd 100%);
     border-radius: 10px;
@@ -31,7 +32,7 @@ body {
     cursor: default;
 }
 
-.panel-custom .card.show {
+.panel-custom .card.showcard {
     font-size: 33px;
 }
 
@@ -40,7 +41,6 @@ body {
     background: #d89c1d;
     font-size: 33px;
 }
-
 
 /*
  * Styles for the Score Panel
