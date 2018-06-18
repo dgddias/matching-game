@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-br" xmlns="http://www.w3.org/1999/html">
+<html lang="pt-br" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="vendors/font-awesome-4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="vendors/bootstrap-sweetalert-master/dist/sweetalert.css">
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -18,22 +19,31 @@
         <div class="row">
             <h2 class="text-center text-uppercase">Matching Game</h2>
         </div>
+    </header>
+    <section>
         <div class="row">
-            <div class="col-lg-6 col-md-6 col-xs-12 text-right">
-                <h4>numero de jogadas</h4>
+            <div class="col-sm-6 col-md-6 col-xs-12">
+                <div class="score-panel">
+                    <ul class="stars">
+                        <!-- loading stars function -->
+                    </ul>
+                    <span class="moves"></span> Moves
+                </div>
             </div>
-            <div class="col-lg-6 col-md-6 col-xs-12">
-                <h4>voltar</h4>
+            <div class="col-sm-6 col-md-6 col-xs-12">
+                <div class="restart">
+                    <i class="fa fa-repeat" onclick="resetGame()"></i>
+                </div>
             </div>
         </div>
-    </header>
+    </section>
     <!-- End HEADER -->
     <!-- Start PAINEL -->
     <div class="row">
         <div class="col-sm-8 col-sm-offset-2 col-xs-12">
             <div class="panel panel-custom">
                 <div class="container text-center">
-
+                    <!-- loading page function -->
                 </div>
             </div>
         </div>
@@ -41,6 +51,7 @@
 </div>
 <!-- END Painel -->
 <script src="js/jquery-3.3.1.min.js"></script>
+<script src="vendors/bootstrap-sweetalert-master/dist/sweetalert.min.js"></script>
 <script src="js/app.js"></script>
 </body>
 </html>

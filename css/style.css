@@ -40,3 +40,31 @@ body {
     background: #d89c1d;
     font-size: 33px;
 }
+
+
+/*
+ * Styles for the Score Panel
+ */
+
+.score-panel {
+    text-align: right;
+    width: 70%;
+    margin-bottom: 10px;
+}
+
+.score-panel .stars {
+    margin: 0;
+    padding: 0;
+    display: inline-block;
+    margin: 0 5px 0 0;
+}
+
+.score-panel .stars li {
+    list-style: none;
+    display: inline-block;
+}
+
+.restart {
+    cursor: pointer;
+    text-align: center;
+}

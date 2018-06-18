@@ -1,8 +1,9 @@
-/*
- * Create a list that holds all of your cards
- */
-const cards = ["fa-car", "fa-plane", "fa-umbrella", "fa-star", "fa-anchor", "fa-diamond", "fa-bicycle", "fa-bomb"];
+
+const cards = ["fa-car", "fa-plane", "fa-umbrella", "fa-home", "fa-anchor", "fa-diamond", "fa-bicycle", "fa-bomb"];
 let cardOpen = [];
+let count = 0;
+let cardmatch = 0;
+let stars = 3;
 
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
@@ -18,8 +19,9 @@ function shuffle(array) {
 
     return array;
 }
+
 /*
-    - loop through each card and create its HTML
+    - loop through each card
 */
 function loadArray() {
 
@@ -27,9 +29,7 @@ function loadArray() {
 }
 
 /*
-
- *
- *   - add each card's HTML to the page
+  - add each card's HTML to the page
  */
 
 function loadpage(card) {
@@ -45,41 +45,142 @@ function loadpage(card) {
 }
 
 /*
- * set up the event listener for a card. If a card is clicked:
- *  - display the card's symbol (put this functionality in another function that you call from this one)
- *  - add the card to a *list* of "open" cards (put this functionality in another function that you call from this one)
- *  - if the list already has another card, check to see if the two cards match
- *    + if the cards do match, lock the cards in the open position (put this functionality in another function that you call from this one)
- *    + if the cards do not match, remove the cards from the list and hide the card's symbol (put this functionality in another function that you call from this one)
- *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
- *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
+check match
  */
-
-
-
 function checkOpen() {
 
-    if((cardOpen[0].find('i').attr('class')) === (cardOpen[1].find('i').attr('class'))){
+    if ((cardOpen[0].find('i').attr('class')) === (cardOpen[1].find('i').attr('class'))) {
+        cardmatch++;
+        cardOpen.forEach(function (e) {
 
-              cardOpen.forEach(function (e) {
-
-                  e.toggleClass("open show match");
-              });
+            e.toggleClass("open show match");
+        });
     } else {
 
         cardOpen.forEach(function (e) {
-            e.animateCss('shake', function(){
+            e.animateCss('shake', function () {
                 e.toggleClass("open show");
             });
         });
     }
+
     cardOpen = [];
+    count += 1;
+    addMoves();
+    if (cardmatch === 8) {
+
+        endGame();
+    }
 
 }
 
+/*
+function endgame
+ */
+function endGame() {
+
+    if (stars === 3) {
+        swal({
+            title: "Good job!",
+            text: `"You won the game with ${count} movies and ${stars} stars"`,
+            imageUrl: './img/good-job.png',
+            confirmButtonClass: "btn btn-primary",
+            closeOnConfirm: false,
+        }, function (isConfirm) {
+
+            resetGame();
+
+        });
+    } else if (stars === 2) {
+
+        swal({
+            title: "Not Bad!",
+            text: `"You won the game with ${count} movies and ${stars} stars, tente melhorar!!!"`,
+            imageUrl: './img/not-bad.png',
+            confirmButtonClass: "btn btn-primary",
+            closeOnConfirm: false,
+        }, function (isConfirm) {
+
+            resetGame();
+
+        });
+
+
+    } else {
+
+        swal({
+            title: "Bad!",
+            text: `"You won the game with ${count} movies and ${stars} stars, tente melhorar!!!"`,
+            imageUrl: './img/sad.jpg',
+            confirmButtonClass: "btn btn-primary",
+            closeOnConfirm: false,
+        }, function (isConfirm) {
+
+            resetGame();
+
+        });
+
+    }
+}
+
+/*
+function newGame
+ */
+function resetGame() {
+
+    location.reload();
+
+}
+
+/*
+function count move
+ */
+function addMoves() {
+
+    $(".moves").html(count);
+
+    if (count === 15) {
+        stars = 2;
+        removeStars();
+    }
+    if (count === 20) {
+        stars = 1;
+        {
+            removeStars();
+
+        }
+    }
+
+}
+
+/*
+function load stars and add HTML to the page
+ */
+function loadStars() {
+
+    for (let i = 0; i < 3; i++) {
+
+        $('.score-panel .stars').append(`<li><i class="fa fa-star" style="color: #ebe111"></i></li>`);
+    }
+
+}
+
+/*
+function remove stars Html
+ */
+
+function removeStars() {
+
+    let stars = $(".fa-star");
+    $(stars[stars.length - 1]).toggleClass("fa-star fa-star-o");
+}
+
+/*
+function animate.css
+ */
 $.fn.extend({
-    animateCss: function(animationName, callback) {
-        var animationEnd = (function(el) {
+    animateCss: function (animationName, callback) {
+        var animationEnd = (function (el) {
             var animations = {
                 animation: 'animationend',
                 OAnimation: 'oAnimationEnd',
@@ -94,7 +195,7 @@ $.fn.extend({
             }
         })(document.createElement('div'));
 
-        this.addClass('animated ' + animationName).one(animationEnd, function() {
+        this.addClass('animated ' + animationName).one(animationEnd, function () {
             $(this).removeClass('animated ' + animationName);
 
             if (typeof callback === 'function') callback();
@@ -104,51 +205,28 @@ $.fn.extend({
     },
 });
 
-
-
-// event handler for when the card is clicked
-function cardClick(event){
-    // check opened or matched card
-    let classes = $(this).attr("class");
-    if (classes.search('open') * classes.search('match') !== 1){
-        // both should be -1
-        return;
-    }
-    // start game if needed
-    if (!started) {
-        started = true;
-        timeCount = 0;
-        timerPtr = setTimeout(startTimer, 1000);
-    }
-    // cards can be flipped
-    if (openCards.length < 2){
-        $(this).toggleClass("open show");
-        openCards.push($(this));
-    }
-    // check if cards match
-    if (openCards.length === 2){
-        checkOpenCards();
-    }
-}
-
-$(document).ready(function() {
+/*
+start DOM
+ */
+$(document).ready(function () {
     loadArray();
+    loadStars();
 
     $('.card').on('click', function () {
 
         let classes = $(this).attr('class');
-        if (classes.search('open') * classes.search('match') !== 1){
+        if (classes.search('open') * classes.search('match') !== 1) {
             // both should be -1
             return;
         }
 
         // cards can be flipped
-        if (cardOpen.length < 2){
+        if (cardOpen.length < 2) {
             $(this).toggleClass("open show");
             cardOpen.push($(this));
         }
         // check if cards match
-        if (cardOpen.length === 2){
+        if (cardOpen.length === 2) {
             checkOpen();
         }
     });
