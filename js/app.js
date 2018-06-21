@@ -82,7 +82,7 @@ function endGame() {
     if (stars === 3) {
         swal({
             title: "Good job!",
-            text: `"You won the game with ${count} movies and ${stars} stars"`,
+            text: `"You won the game with ${count} movies and ${stars} stars."`,
             imageUrl: './img/good-job.png',
             confirmButtonClass: "btn btn-primary",
             closeOnConfirm: false,
@@ -95,7 +95,7 @@ function endGame() {
 
         swal({
             title: "Not Bad!",
-            text: `"You won the game with ${count} movies and ${stars} stars, tente melhorar!!!"`,
+            text: `"You won the game with ${count} movies and ${stars} stars, try again!!!"`,
             imageUrl: './img/not-bad.png',
             confirmButtonClass: "btn btn-primary",
             closeOnConfirm: false,
@@ -110,7 +110,7 @@ function endGame() {
 
         swal({
             title: "Bad!",
-            text: `"You won the game with ${count} movies and ${stars} stars, tente melhorar!!!"`,
+            text: `"You won the game with ${count} movies and ${stars} stars, try again!!!"`,
             imageUrl: './img/sad.jpg',
             confirmButtonClass: "btn btn-primary",
             closeOnConfirm: false,
