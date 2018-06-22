@@ -1,9 +1,20 @@
-
-const cards = ["fa-car", "fa-plane", "fa-umbrella", "fa-home", "fa-anchor", "fa-diamond", "fa-bicycle", "fa-bomb"];
+const cards = [
+    "fa-car",
+    "fa-plane",
+    "fa-umbrella",
+    "fa-home",
+    "fa-anchor",
+    "fa-diamond",
+    "fa-bicycle",
+    "fa-bomb"];
 let cardOpen = [];
 let count = 0;
 let cardmatch = 0;
 let stars = 3;
+let timer;
+let start = false;
+let clock = 0;
+
 
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
@@ -49,6 +60,14 @@ check match
  */
 function checkOpen() {
 
+    // start game if needed
+    if (!start) {
+        clock = 0;
+        start = true;
+        timer = setTimeout(clockStart, 1000);
+    }
+
+
     if ((cardOpen[0].find('i').attr('class')) === (cardOpen[1].find('i').attr('class'))) {
         cardmatch++;
         cardOpen.forEach(function (e) {
@@ -67,6 +86,7 @@ function checkOpen() {
     cardOpen = [];
     count += 1;
     addMoves();
+
     if (cardmatch === 8) {
 
         endGame();
@@ -74,18 +94,28 @@ function checkOpen() {
 
 }
 
+
+// starts the timer
+function clockStart() {
+    clock += 1;
+    $(".clock").html(clock);
+    timer = setTimeout(clockStart, 1000);
+}
+
 /*
 function endgame
  */
 function endGame() {
 
+    clearTimeout(timer);
+
     if (stars === 3) {
         swal({
             title: "Good job!",
-            text: `"You won the game with ${count} movies and ${stars} stars."`,
+            text: `"You won the game with ${count} movies and ${stars} stars. Your time: ${clock}"`,
             imageUrl: './img/good-job.png',
             confirmButtonClass: "btn btn-primary",
-            closeOnConfirm: false,
+            closeOnConfirm: false
         }, function (isConfirm) {
 
             resetGame();
@@ -95,10 +125,10 @@ function endGame() {
 
         swal({
             title: "Not Bad!",
-            text: `"You won the game with ${count} movies and ${stars} stars, try again!!!"`,
+            text: `"You won the game with ${count} movies and ${stars} stars, Your time: ${clock}, try again!!!"`,
             imageUrl: './img/not-bad.png',
             confirmButtonClass: "btn btn-primary",
-            closeOnConfirm: false,
+            closeOnConfirm: false
         }, function (isConfirm) {
 
             resetGame();
@@ -110,10 +140,10 @@ function endGame() {
 
         swal({
             title: "Bad!",
-            text: `"You won the game with ${count} movies and ${stars} stars, try again!!!"`,
+            text: `"You won the game with ${count} movies and ${stars} stars, Your time: ${clock} try again!!!"`,
             imageUrl: './img/sad.jpg',
             confirmButtonClass: "btn btn-primary",
-            closeOnConfirm: false,
+            closeOnConfirm: false
         }, function (isConfirm) {
 
             resetGame();
@@ -121,6 +151,7 @@ function endGame() {
         });
 
     }
+
 }
 
 /*
@@ -185,7 +216,7 @@ $.fn.extend({
                 animation: 'animationend',
                 OAnimation: 'oAnimationEnd',
                 MozAnimation: 'mozAnimationEnd',
-                WebkitAnimation: 'webkitAnimationEnd',
+                WebkitAnimation: 'webkitAnimationEnd'
             };
 
             for (var t in animations) {
@@ -202,7 +233,7 @@ $.fn.extend({
         });
 
         return this;
-    },
+    }
 });
 
 /*
